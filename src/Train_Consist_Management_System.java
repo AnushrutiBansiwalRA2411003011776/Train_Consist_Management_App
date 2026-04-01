@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Train_Consist_Management_System {
 
@@ -107,5 +109,25 @@ public class Train_Consist_Management_System {
 // Display final formation
         System.out.println("\nTrain Formation (Ordered & Unique):");
         System.out.println(formation);
+
+        // =========================
+// UC6 — Bogie Capacity Mapping using HashMap
+// =========================
+
+// Create HashMap for bogie → capacity
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+
+// Add bogie capacities
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 50);
+        bogieCapacityMap.put("First Class", 24);
+
+// Display capacity details
+        System.out.println("\nBogie Capacity Details:");
+
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " → Capacity: " + entry.getValue());
+        }
+
     }
 }
