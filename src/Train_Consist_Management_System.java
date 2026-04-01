@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Train_Consist_Management_System {
 
@@ -42,5 +44,24 @@ public class Train_Consist_Management_System {
         // Final state
         System.out.println("\nFinal Passenger Bogies:");
         System.out.println(passengerBogies);
+        // =========================
+// UC3 — Unique Bogie IDs
+// =========================
+
+
+
+// Create Set for Bogie IDs
+        Set<String> bogieIds = new HashSet<>();
+
+// Add IDs (with duplicates intentionally)
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG103");
+        bogieIds.add("BG101"); // duplicate
+        bogieIds.add("BG102"); // duplicate
+
+// Display unique bogie IDs
+        System.out.println("\nUnique Bogie IDs:");
+        System.out.println(bogieIds);
     }
 }
