@@ -62,6 +62,21 @@ public class Train_Consist_Management_System {
                     return true; // other bogies allowed anything
                 });
     }
+    public static List<Bogie> filterWithLoop(List<Bogie> bogies) {
+        List<Bogie> result = new ArrayList<>();
+
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+    public static List<Bogie> filterWithStream(List<Bogie> bogies) {
+        return bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .toList();
+    }
     public static void main(String[] args) {
 
         // Welcome Message
@@ -262,5 +277,30 @@ public class Train_Consist_Management_System {
         boolean isSafe = isTrainSafe(goodsBogies);
 
         System.out.println("\nTrain Safety Status: " + (isSafe ? "SAFE" : "UNSAFE"));
+        // =========================
+// UC13 — Performance Comparison
+// =========================
+
+// Create large dataset
+        List<Bogie> largeList = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            largeList.add(new Bogie("Sleeper", i % 100));
+        }
+
+// Loop timing
+        long startLoop = System.nanoTime();
+        List<Bogie> loopResult = filterWithLoop(largeList);
+        long endLoop = System.nanoTime();
+
+// Stream timing
+        long startStream = System.nanoTime();
+        List<Bogie> streamResult = filterWithStream(largeList);
+        long endStream = System.nanoTime();
+
+// Results
+        System.out.println("\nLoop Time: " + (endLoop - startLoop) + " ns");
+        System.out.println("Stream Time: " + (endStream - startStream) + " ns");
+        System.out.println("Loop Result Size: " + loopResult.size());
+        System.out.println("Stream Result Size: " + streamResult.size());
     }
 }

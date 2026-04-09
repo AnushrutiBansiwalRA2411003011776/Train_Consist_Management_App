@@ -184,4 +184,53 @@ class Train_Consist_Management_SystemTest {
         assertFalse(Train_Consist_Management_System.isValidTrainId("TRN-1234XYZ"));
         assertFalse(Train_Consist_Management_System.isValidCargoCode("PET-ABCD"));
     }
+    @Test
+    void testLoopFilteringLogic() {
+        var list = createBogies();
+        var result = Train_Consist_Management_System.filterWithLoop(list);
+
+        assertTrue(result.stream().allMatch(b -> b.capacity > 60));
+    }
+
+    @Test
+    void testStreamFilteringLogic() {
+        var list = createBogies();
+        var result = Train_Consist_Management_System.filterWithStream(list);
+
+        assertTrue(result.stream().allMatch(b -> b.capacity > 60));
+    }
+
+    @Test
+    void testLoopAndStreamResultsMatch() {
+        var list = createBogies();
+
+        var loopResult = Train_Consist_Management_System.filterWithLoop(list);
+        var streamResult = Train_Consist_Management_System.filterWithStream(list);
+
+        assertEquals(loopResult.size(), streamResult.size());
+    }
+
+    @Test
+    void testExecutionTimeMeasurement() {
+        var list = createBogies();
+
+        long start = System.nanoTime();
+        Train_Consist_Management_System.filterWithLoop(list);
+        long end = System.nanoTime();
+
+        assertTrue((end - start) > 0);
+    }
+
+    @Test
+    void testLargeDatasetProcessing() {
+        var list = new ArrayList<Train_Consist_Management_System.Bogie>();
+
+        for (int i = 0; i < 1000; i++) {
+            list.add(new Train_Consist_Management_System.Bogie("Test", i));
+        }
+
+        var result = Train_Consist_Management_System.filterWithStream(list);
+
+        assertNotNull(result);
+    }
 }
