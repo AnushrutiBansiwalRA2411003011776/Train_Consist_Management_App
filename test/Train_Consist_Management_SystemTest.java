@@ -57,4 +57,35 @@ class Train_Consist_Management_SystemTest {
 
         assertEquals(copy.size(), original.size());
     }
+    @Test
+    void testGrouping_BogiesGroupedByType() {
+        var result = Train_Consist_Management_System.groupBogiesByType(createBogies());
+        assertTrue(result.containsKey("Sleeper"));
+    }
+
+    @Test
+    void testGrouping_MultipleBogiesInSameGroup() {
+        var list = new ArrayList<Train_Consist_Management_System.Bogie>();
+        list.add(new Train_Consist_Management_System.Bogie("Sleeper", 72));
+        list.add(new Train_Consist_Management_System.Bogie("Sleeper", 80));
+
+        var result = Train_Consist_Management_System.groupBogiesByType(list);
+        assertEquals(2, result.get("Sleeper").size());
+    }
+
+    @Test
+    void testGrouping_EmptyBogieList() {
+        var result = Train_Consist_Management_System.groupBogiesByType(new ArrayList<>());
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testGrouping_OriginalListUnchanged() {
+        var original = createBogies();
+        var copy = new ArrayList<>(original);
+
+        Train_Consist_Management_System.groupBogiesByType(original);
+
+        assertEquals(copy.size(), original.size());
+    }
 }

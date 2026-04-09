@@ -24,6 +24,10 @@ public class Train_Consist_Management_System {
                 .filter(b -> b.capacity > threshold)
                 .toList();
     }
+    public static Map<String, List<Bogie>> groupBogiesByType(List<Bogie> bogies) {
+        return bogies.stream()
+                .collect(java.util.stream.Collectors.groupingBy(b -> b.name));
+    }
     public static void main(String[] args) {
 
         // Welcome Message
@@ -150,6 +154,8 @@ public class Train_Consist_Management_System {
         bogieList.add(new Bogie("AC Chair", 50));
         bogieList.add(new Bogie("First Class", 24));
         bogieList.add(new Bogie("General", 90));
+        bogieList.add(new Bogie("Sleeper", 80));
+        bogieList.add(new Bogie("AC Chair", 55));
 
 // Sort using Comparator (ascending order)
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
@@ -172,6 +178,21 @@ public class Train_Consist_Management_System {
 
         for (Bogie b : filteredBogies) {
             System.out.println(b.name + " → Capacity: " + b.capacity);
+        }
+        // =========================
+// UC9 — Group Bogies by Type
+// =========================
+
+        Map<String, List<Bogie>> groupedBogies = groupBogiesByType(bogieList);
+
+        System.out.println("\nGrouped Bogies by Type:");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println(entry.getKey() + ":");
+
+            for (Bogie b : entry.getValue()) {
+                System.out.println("  Capacity: " + b.capacity);
+            }
         }
     }
 }
