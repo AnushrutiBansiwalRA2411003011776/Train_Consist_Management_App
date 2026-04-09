@@ -20,6 +20,15 @@ public class Train_Consist_Management_System {
         this.capacity = capacity;
     }
 }
+    static class GoodsBogie {
+        String type;
+        String cargo;
+
+        GoodsBogie(String type, String cargo) {
+            this.type = type;
+            this.cargo = cargo;
+        }
+    }
     public static List<Bogie> filterBogiesByCapacity(List<Bogie> bogies, int threshold) {
         return bogies.stream()
                 .filter(b -> b.capacity > threshold)
@@ -43,6 +52,15 @@ public class Train_Consist_Management_System {
     public static boolean isValidCargoCode(String cargoCode) {
         String regex = "PET-[A-Z]{2}";
         return Pattern.matches(regex, cargoCode);
+    }
+    public static boolean isTrainSafe(List<GoodsBogie> goodsBogies) {
+        return goodsBogies.stream()
+                .allMatch(b -> {
+                    if (b.type.equalsIgnoreCase("Cylindrical")) {
+                        return b.cargo.equalsIgnoreCase("Petroleum");
+                    }
+                    return true; // other bogies allowed anything
+                });
     }
     public static void main(String[] args) {
 
@@ -229,5 +247,20 @@ public class Train_Consist_Management_System {
 
         System.out.println("Cargo Code Validation: " +
                 (isValidCargoCode(cargoCode) ? "Valid" : "Invalid"));
+
+
+        // =========================
+// UC12 — Safety Compliance Check
+// =========================
+
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
+
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goodsBogies.add(new GoodsBogie("Open", "Coal"));
+        goodsBogies.add(new GoodsBogie("Box", "Grain"));
+
+        boolean isSafe = isTrainSafe(goodsBogies);
+
+        System.out.println("\nTrain Safety Status: " + (isSafe ? "SAFE" : "UNSAFE"));
     }
 }
