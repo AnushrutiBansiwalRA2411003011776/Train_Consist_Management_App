@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Comparator;
+import java.util.regex.Pattern;
 
 public class Train_Consist_Management_System {
 
@@ -32,6 +33,16 @@ public class Train_Consist_Management_System {
         return bogies.stream()
                 .map(b -> b.capacity)
                 .reduce(0, Integer::sum);
+    }
+
+    public static boolean isValidTrainId(String trainId) {
+        String regex = "TRN-\\d{4}";
+        return Pattern.matches(regex, trainId);
+    }
+
+    public static boolean isValidCargoCode(String cargoCode) {
+        String regex = "PET-[A-Z]{2}";
+        return Pattern.matches(regex, cargoCode);
     }
     public static void main(String[] args) {
 
@@ -206,5 +217,17 @@ public class Train_Consist_Management_System {
         int totalCapacity = calculateTotalCapacity(bogieList);
 
         System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
+        // =========================
+// UC11 — Regex Validation
+// =========================
+
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
+
+        System.out.println("\nTrain ID Validation: " +
+                (isValidTrainId(trainId) ? "Valid" : "Invalid"));
+
+        System.out.println("Cargo Code Validation: " +
+                (isValidCargoCode(cargoCode) ? "Valid" : "Invalid"));
     }
 }
