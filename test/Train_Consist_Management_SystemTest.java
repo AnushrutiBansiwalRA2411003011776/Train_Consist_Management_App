@@ -233,4 +233,52 @@ class Train_Consist_Management_SystemTest {
 
         assertNotNull(result);
     }
+    @Test
+    void testException_ValidCapacityCreation() throws Exception {
+        var b = new Train_Consist_Management_System.Bogie("Sleeper", 72);
+        assertEquals(72, b.capacity);
+    }
+
+    @Test
+    void testException_NegativeCapacityThrowsException() {
+        assertThrows(
+                Train_Consist_Management_System.InvalidCapacityException.class,
+                () -> new Train_Consist_Management_System.Bogie("Sleeper", -10)
+        );
+    }
+
+    @Test
+    void testException_ZeroCapacityThrowsException() {
+        assertThrows(
+                Train_Consist_Management_System.InvalidCapacityException.class,
+                () -> new Train_Consist_Management_System.Bogie("AC", 0)
+        );
+    }
+
+    @Test
+    void testException_ExceptionMessageValidation() {
+        Exception ex = assertThrows(
+                Train_Consist_Management_System.InvalidCapacityException.class,
+                () -> new Train_Consist_Management_System.Bogie("Sleeper", 0)
+        );
+
+        assertEquals("Capacity must be greater than zero", ex.getMessage());
+    }
+
+    @Test
+    void testException_ObjectIntegrityAfterCreation() throws Exception {
+        var b = new Train_Consist_Management_System.Bogie("AC Chair", 50);
+
+        assertEquals("AC Chair", b.name);
+        assertEquals(50, b.capacity);
+    }
+
+    @Test
+    void testException_MultipleValidBogiesCreation() throws Exception {
+        var b1 = new Train_Consist_Management_System.Bogie("Sleeper", 72);
+        var b2 = new Train_Consist_Management_System.Bogie("AC", 50);
+
+        assertNotNull(b1);
+        assertNotNull(b2);
+    }
 }

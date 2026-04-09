@@ -12,14 +12,17 @@ import java.util.regex.Pattern;
 public class Train_Consist_Management_System {
 
     static class Bogie {
-    String name;
-    int capacity;
+        String name;
+        int capacity;
 
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
+        Bogie(String name, int capacity) throws InvalidCapacityException {
+            if (capacity <= 0) {
+                throw new InvalidCapacityException("Capacity must be greater than zero");
+            }
+            this.name = name;
+            this.capacity = capacity;
+        }
     }
-}
     static class GoodsBogie {
         String type;
         String cargo;
@@ -76,6 +79,11 @@ public class Train_Consist_Management_System {
         return bogies.stream()
                 .filter(b -> b.capacity > 60)
                 .toList();
+    }
+    static class InvalidCapacityException extends Exception {
+        public InvalidCapacityException(String message) {
+            super(message);
+        }
     }
     public static void main(String[] args) {
 
@@ -302,5 +310,18 @@ public class Train_Consist_Management_System {
         System.out.println("Stream Time: " + (endStream - startStream) + " ns");
         System.out.println("Loop Result Size: " + loopResult.size());
         System.out.println("Stream Result Size: " + streamResult.size());
+        // =========================
+// UC14 — Exception Handling
+// =========================
+
+        try {
+            Bogie b1 = new Bogie("Sleeper", 72);
+            Bogie b2 = new Bogie("AC Chair", 0); // ❌ will throw exception
+
+            System.out.println("Bogies created successfully");
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
