@@ -88,4 +88,54 @@ class Train_Consist_Management_SystemTest {
 
         assertEquals(copy.size(), original.size());
     }
+    @Test
+    void testReduce_TotalSeatCalculation() {
+        var list = createBogies();
+        int total = Train_Consist_Management_System.calculateTotalCapacity(list);
+
+        assertEquals(72 + 50 + 60 + 90, total);
+    }
+
+    @Test
+    void testReduce_MultipleBogiesAggregation() {
+        var list = createBogies();
+        int total = Train_Consist_Management_System.calculateTotalCapacity(list);
+
+        assertTrue(total > 0);
+    }
+
+    @Test
+    void testReduce_SingleBogieCapacity() {
+        var list = new ArrayList<Train_Consist_Management_System.Bogie>();
+        list.add(new Train_Consist_Management_System.Bogie("Sleeper", 72));
+
+        int total = Train_Consist_Management_System.calculateTotalCapacity(list);
+
+        assertEquals(72, total);
+    }
+
+    @Test
+    void testReduce_EmptyBogieList() {
+        int total = Train_Consist_Management_System.calculateTotalCapacity(new ArrayList<>());
+
+        assertEquals(0, total);
+    }
+
+    @Test
+    void testReduce_AllBogiesIncluded() {
+        var list = createBogies();
+        int total = Train_Consist_Management_System.calculateTotalCapacity(list);
+
+        assertEquals(72 + 50 + 60 + 90, total);
+    }
+
+    @Test
+    void testReduce_OriginalListUnchanged() {
+        var original = createBogies();
+        var copy = new ArrayList<>(original);
+
+        Train_Consist_Management_System.calculateTotalCapacity(original);
+
+        assertEquals(copy.size(), original.size());
+    }
 }

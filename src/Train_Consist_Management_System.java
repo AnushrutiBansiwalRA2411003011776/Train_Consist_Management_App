@@ -28,6 +28,11 @@ public class Train_Consist_Management_System {
         return bogies.stream()
                 .collect(java.util.stream.Collectors.groupingBy(b -> b.name));
     }
+    public static int calculateTotalCapacity(List<Bogie> bogies) {
+        return bogies.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
+    }
     public static void main(String[] args) {
 
         // Welcome Message
@@ -194,5 +199,12 @@ public class Train_Consist_Management_System {
                 System.out.println("  Capacity: " + b.capacity);
             }
         }
+        // =========================
+// UC10 — Total Seat Calculation
+// =========================
+
+        int totalCapacity = calculateTotalCapacity(bogieList);
+
+        System.out.println("\nTotal Seating Capacity of Train: " + totalCapacity);
     }
 }
