@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Comparator;
 
 public class Train_Consist_Management_System {
+
     static class Bogie {
     String name;
     int capacity;
@@ -18,7 +19,11 @@ public class Train_Consist_Management_System {
         this.capacity = capacity;
     }
 }
-
+    public static List<Bogie> filterBogiesByCapacity(List<Bogie> bogies, int threshold) {
+        return bogies.stream()
+                .filter(b -> b.capacity > threshold)
+                .toList();
+    }
     public static void main(String[] args) {
 
         // Welcome Message
@@ -144,6 +149,7 @@ public class Train_Consist_Management_System {
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 50));
         bogieList.add(new Bogie("First Class", 24));
+        bogieList.add(new Bogie("General", 90));
 
 // Sort using Comparator (ascending order)
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
@@ -152,6 +158,19 @@ public class Train_Consist_Management_System {
         System.out.println("\nBogies sorted by capacity:");
 
         for (Bogie b : bogieList) {
+            System.out.println(b.name + " → Capacity: " + b.capacity);
+        }
+        // =========================
+// UC8 — Stream Filtering
+// =========================
+
+        int threshold = 60;
+
+        List<Bogie> filteredBogies = filterBogiesByCapacity(bogieList, threshold);
+
+        System.out.println("\nFiltered Bogies (Capacity > " + threshold + "):");
+
+        for (Bogie b : filteredBogies) {
             System.out.println(b.name + " → Capacity: " + b.capacity);
         }
     }
